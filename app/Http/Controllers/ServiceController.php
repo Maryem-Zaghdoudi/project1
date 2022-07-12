@@ -180,109 +180,170 @@ class ServiceController extends Controller
         $categories= Category::all();
         $services = Service::all();
         
-        if ($request->has('nom_rech')){
-            $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')->get();
-        }
-        if (($request->has('prix_max')) && ($request->has('prix_min'))){
+        
+        if ((($request->prix_max)!=null) && ($request->prix_min != null)){
             $services =Service::whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
         }
-       
-        if ($request->categorie != '--'){
+
+        if ($request->categorie != "--"){
             $services= Service::where('categorie_id' , $request->categorie)->get();
         }
+        if ($request->nom_rech != null){
+            $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')->get();
+        }
+
         
-
-        //dd($request->categorie != '--');
-
-        if ($request->tri != '--'){
+        if (($request->nom_rech != null)&&((($request->prix_max)!=null) && ($request->prix_min != null))){
+            $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+            ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+        }
+        if (($request->nom_rech != null) &&($request->categorie !='--')){
+            $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+            ->where('categorie_id' , $request->categorie)
+            ->get();
+        }
+        if (($request->categorie !='--')&&((($request->prix_max)!=null) && ($request->prix_min != null))){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->where('categorie_id' , $request->categorie)
+                    ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }
+        if (($request->nom_rech != null)&&((($request->prix_max)!=null) && ($request->prix_min != null)&&($request->categorie !='--'))){
+            $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+            ->where('categorie_id' , $request->categorie)
+            ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+        }
+ 
+        if ($request->tri != "--"){
             if($request->tri=='prix_decroissant'){
-                $services= Service::all()->sortByDesc('prix')
+                if ($request->nom_rech != null){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')->get();
+                }
+                if ($request->categorie != "--"){
+                    $services= Service::where('categorie_id' , $request->categorie)->get();
+                }
+                if ((($request->prix_max)!=null) && ($request->prix_min != null)){
+                    $services =Service::whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }
+                if (($request->nom_rech != null)&&((($request->prix_max)!=null) && ($request->prix_min != null))){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }
+                if (($request->nom_rech != null) &&($request->categorie !='--')){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->where('categorie_id' , $request->categorie)
+                    ->get();
+                }
+                if (($request->nom_rech != null)&&((($request->prix_max)!=null) && ($request->prix_min != null)&&($request->categorie !='--'))){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->where('categorie_id' , $request->categorie)
+                    ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }        
+                if (($request->categorie !='--')&&((($request->prix_max)!=null) && ($request->prix_min != null))){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->where('categorie_id' , $request->categorie)
+                    ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }
+                $services= $services->sortByDesc('prix')
                 ;
             }
             if($request->tri=='prix_croissant'){
-                $services= Service::all()->sortBy('prix')                ;
+                if ($request->nom_rech != null){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')->get();
+                }
+                if ($request->categorie != "--"){
+                    $services= Service::where('categorie_id' , $request->categorie)->get();
+                }
+                if ((($request->prix_max)!=null) && ($request->prix_min != null)){
+                    $services =Service::whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }
+                if (($request->nom_rech != null)&&((($request->prix_max)!=null) && ($request->prix_min != null))){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }
+                if (($request->nom_rech != null) &&($request->categorie !='--')){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->where('categorie_id' , $request->categorie)
+                    ->get();
+                }
+                if (($request->nom_rech != null)&&((($request->prix_max)!=null) && ($request->prix_min != null)&&($request->categorie !='--'))){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->where('categorie_id' , $request->categorie)
+                    ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }    
+                if (($request->categorie !='--')&&((($request->prix_max)!=null) && ($request->prix_min != null))){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->where('categorie_id' , $request->categorie)
+                    ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }
+                $services= $services->sortBy('prix')                ;
             }
             if($request->tri=='nom_a_z'){
-                $services= Service::all()->sortBy('nom') ;   
+                if ($request->nom_rech != null){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')->get();
+                }
+                if ($request->categorie != "--"){
+                    $services= Service::where('categorie_id' , $request->categorie)->get();
+                }
+                if ((($request->prix_max)!=null) && ($request->prix_min != null)){
+                    $services =Service::whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }
+                if (($request->nom_rech != null)&&((($request->prix_max)!=null) && ($request->prix_min != null))){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }
+                if (($request->nom_rech != null) &&($request->categorie !='--')){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->where('categorie_id' , $request->categorie)
+                    ->get();
+                }
+                if (($request->nom_rech != null)&&((($request->prix_max)!=null) && ($request->prix_min != null)&&($request->categorie !='--'))){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->where('categorie_id' , $request->categorie)
+                    ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }    
+                if (($request->categorie !='--')&&((($request->prix_max)!=null) && ($request->prix_min != null))){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->where('categorie_id' , $request->categorie)
+                    ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }
+                $services= $services->sortBy('nom') ;   
             }
             if($request->tri=='nom_z_a'){
-                $services= Service::all()->sortByDesc('nom') ;   
+                if ($request->nom_rech != null){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')->get();
+                }
+                if ($request->categorie != "--"){
+                    $services= Service::where('categorie_id' , $request->categorie)->get();
+                }
+                if ((($request->prix_max)!=null) && ($request->prix_min != null)){
+                    $services =Service::whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }
+                if (($request->nom_rech != null)&&((($request->prix_max)!=null) && ($request->prix_min != null))){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }
+                if (($request->nom_rech != null) &&($request->categorie !='--')){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->where('categorie_id' , $request->categorie)
+                    ->get();
+                }
+                if (($request->nom_rech != null)&&((($request->prix_max)!=null) && ($request->prix_min != null)&&($request->categorie !='--'))){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->where('categorie_id' , $request->categorie)
+                    ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }    
+                if (($request->categorie !='--')&&((($request->prix_max)!=null) && ($request->prix_min != null))){
+                    $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
+                    ->where('categorie_id' , $request->categorie)
+                    ->whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
+                }
+                $services= $services->sortByDesc('nom') ;   
             }
             
         }
-        if ($request->has('nom_rech')&&($request->categorie !='--')){
-            $services= Service::where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
-            ->where('categorie_id' , $request->categorie)->get();
-        }
-
-      
-         if (($request->has('prix_max')) && ($request->has('prix_min'))&& ($request->has('nom_rech'))){
-            $services =Service::whereBetween('prix' , [$request->prix_min , $request->prix_max ])
-            ->where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
-            ->get();
-        }
-        if (($request->has('prix_max')) && ($request->has('prix_min'))&& ($request->has('nom_rech'))&&($request->categorie !='--')){
-            $services =Service::whereBetween('prix' , [$request->prix_min , $request->prix_max ])
-            ->where('categorie_id' , $request->categorie)
-            ->where('nom' , 'LIKE' , '%'.$request->nom_rech.'%')
-            ->get();
-        }
-     
-        
-        
-
-        //dd($request);
-        /*if($request->has('categorie')){
-            $category=Category::find($request->categorie_id );
-            // $services= $category->services()->get();
-            //dd($request->categorie_id );
-
-        }*/
-
-        return view('services.index' , compact('categories' , 'services'));
-
+        return view('services.index' , compact('categories'  ,'services'));
     }
 
-
-    /*public function recherche(Request $request ){
-
-        $categories=Category::all();
-       // $services=Service::all();
-        if ($request->has('nom_rech')) {
-            $services=Service::query()->where('nom', 'LIKE' , '%' . $request->nom_rech .'%' )->get();
-        }
-        //dd($services);
-        if (($request->has('prix_max')) && ($request->has('prix_min'))){
-            $services =Service::whereBetween('prix' , [$request->prix_min , $request->prix_max ])->get();
-        }
-        /*if ($request->filled('prix_min')){
-            $services= Service::where('prix', '>', $request->prix_min)->get();
-        }
-        if ($request->filled('prix_max')){
-            $services= Service::where('prix', '<', $request->prix_max)->get();
-        }
-        if ($request->hasAny('prix_min' ,'prix_max')) {
-            $services= Service::where('prix', '>', $request->prix_min)->orwhere('prix' , '<' , $request->prix_max)->get();
-        }
-        if ($request->has('tri')){
-            if($request->tri='prix_croi'){
-                $services= Service::orderBy('prix', 'desc')->get()
-                ;
-            }
-
-            if($request->tri='prix_decroi'){
-                $services= Service::orderBy('prix', 'asc')->get()
-                ;
-            }
-        }
-        if ($request->has('categorie')) {
-            $services= Service::where('categorie', $request->categorie);
-        }
-        
-        return view('services.index', compact('services', 'categories'));
-*/
-
-
-    }
+}
 
 
