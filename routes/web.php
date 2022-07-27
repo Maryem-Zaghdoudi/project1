@@ -16,6 +16,7 @@ use App\Http\Controllers\CategorieController;
 */
 Route::resource ('services', ServiceController::class);
 
+
 //Route::post('/recherche', [ServiceController::class, 'recherche'])->name('services.recherche');
 Route::post('/search', [ServiceController::class, 'search'])->name('services.search');
 

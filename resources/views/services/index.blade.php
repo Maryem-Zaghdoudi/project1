@@ -26,6 +26,9 @@
       <a href="{{ route('services.create')}}" class="btn btn-outline-secondary">Ajouter un service</a>
   </div>
 </div>
+<div id="app">
+  <example-component></example-component>
+</div>
 <div class="row">
   <div class="col-md-8">
     <div class="uper">
@@ -46,8 +49,18 @@
               <div class="card-body">
                 <h5 class="card-title">ID : {{$service->id}}</h5>
                 <h2>{{$service->nom}}</h2>
-                <h3>{{$service->prix}}</h3>
-
+                @if ( ($service->promotion) > 0 )
+                  <div class="row">
+                    <h4> <strong> {{ $service->prix_promo }} TND</strong></h4>
+                  </div>
+                  <div class="row">
+                    
+                    <div class="col"><del>{{ $service->prix_initiale }} TND</del></div>
+                    <div class="col"> - {{ $service->promotion  }} % </div>
+                  </div>
+                @else
+                <h4> {{$service->prix_initiale}} TND</h4>
+                @endif
             
                 <p class="card-text"><strong>Categorie:</strong><br>
                   {{$service->category->nom_categorie }}
@@ -99,6 +112,7 @@
         </div>
     </div>
     <br>
+    
     <div class="form-group ">
       <label for="categorie">Rechercher par categorie: </label>
       <select name="categorie" id="categorie" class="form-select"  >
@@ -114,11 +128,15 @@
     <label for="tri">Trier par : </label>
     <select name="tri" id="tri" class="form-select"  >
       <option value="--"> --   </option>
+      <option value="plus_recent"> PLus recent </option>
 
       <option value="prix_croissant"> Prix croissant  </option>
       <option value="prix_decroissant"> Prix decroissant </option>
       <option value="nom_a_z">Nom , A à Z </option>
       <option value="nom_z_a"> Nom , Z à A  </option>
+      <option value="promo"> Service en promotion </option>
+
+      
 
     </select>
   </div>

@@ -17,10 +17,10 @@ class CreateServicesTable extends Migration
             $table->string('nom');
             $table->string('description');
             $table->string('image');
-            $table->integer('prix');
-
+            $table->float('prix_initiale');
+            $table->float('prix_promo')->nullable();
+            $table->float('promotion');
             $table->foreignId('categorie_id')->constrained('categories')->onDelete('cascade');
-
             $table->timestamps();
       });
     }

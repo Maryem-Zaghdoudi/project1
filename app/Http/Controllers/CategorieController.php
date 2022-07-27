@@ -18,9 +18,21 @@ class CategorieController extends Controller
     public function index()
     {
         //
-        $categories=Category::all();
+        //$categories=Category::with('allChildren')->get();
+        //=Category::all();
 
-        return view('categories.index', compact('categories'));
+        $categories=Category::where('position' , 0)->get();
+        //$category=Category::find(1);
+        //$category_ids[] = $category->getDescendants($category);
+        
+        //dd($category_ids);
+        //dd(Category::where("position" , 0)->get());
+        //$categorie = Category::find(1);
+        //$categories = $categorie->children;
+        //dd($categorie->parent());
+        //dd($category);
+        //dd($categories);
+        return view('categories.index', compact('categories' ));
      
 
     }
@@ -33,7 +45,9 @@ class CategorieController extends Controller
     public function create()
     {
         //
-        return view('categories.create');
+        $categories=Category::all();
+
+        return view('categories.create' , compact('categories'));
 
     }
 
@@ -46,10 +60,23 @@ class CategorieController extends Controller
     public function store(Request $request)
     {
         //
+        //dd(Category::find($request->parent_id));
     
-
-        Category::create($request->all());
-
+        if ($request->parent_id==0){
+            $position = 0;
+        }
+        else{
+            $position = Category::find($request->parent_id)->position + 1;
+        }
+        Category::create(
+            [
+                "nom_categorie"=> $request->nom_categorie,
+                "parent_id"=> $request->parent_id,
+                "position"=> $position
+                    
+                ]
+        );
+        
         return redirect()->route('categories.index')
             ->with('success', 'Category created successfully.');
     }
@@ -60,9 +87,10 @@ class CategorieController extends Controller
      * @param  \App\Models\Categorie  $categorie
      * @return \Illuminate\Http\Response
      */
-    public function show(Categorie $categorie)
+    public function show(Request $request)
     {
-        //
+        
+
     }
 
     /**
@@ -74,10 +102,10 @@ class CategorieController extends Controller
     public function edit($id)
     {
         //
-
+        $categories=Category::all();
         $categorie = Category::findOrFail($id);
         //dd($categorie);
-    return view('categories.edit', compact( 'categorie'));
+    return view('categories.edit', compact( 'categorie' , 'categories'));
     }
 
     /**
@@ -110,4 +138,31 @@ class CategorieController extends Controller
     
 
     }
+
+    protected $appends = [
+        'getParentTree'
+    ];
+    public function getParentTree($category , $nom_categorie){
+        if($category->parent_id == 0){
+            return $nom_categorie;
+        }
+        
+            //dd(Category::find($category->parent_id));
+        $parent=Category::find($category->parent_id);
+        //dd($category);
+        $nom_categorie= $parent->nom_categorie . "->" . $nom_categorie;
+        return CategorieController::getParentTree($parent , $nom_categorie);
+        }
+
+    public static function getChildren($categorie_id){
+        $category=Category::find($categorie_id);
+        if ($category->children){
+            foreach ($category->allChildren as $child){
+                return CategorieController::getChildren($child->id);
+            }    
+        }
+        return ($category->id);
+        }
+        
+
 }

@@ -35,6 +35,24 @@
               <label for="nom_categorie">Nom de Categorie:</label>
               <input type="text" class="form-control" name="nom_categorie"/>
           </div>
+          <div class="form-group ">
+            <label for="parent_id">Choisir la categorie parent: </label>
+
+            <select name="parent_id" id="parent_id" class="form-select"  >
+              <option value="0"> Pas de catégorie parent </option>
+              
+              @foreach ($categories as $category)
+         
+              <option value="{{ $category->id }}"> 
+                 {{  $category->nom_categorie  }}    
+              </option>   
+              @endforeach
+
+            </select>   
+
+          </div>
+        </div>
+         
 
 
         <div class="row">

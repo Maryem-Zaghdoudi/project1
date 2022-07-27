@@ -37,7 +37,17 @@
         <label for="nom_categorie">Nom du categorie :</label>
         <input type="text" class="form-control" name="nom_categorie" value="{{ $categorie->nom_categorie }}"/>
     </div>
+    <div class="form-group ">
+      <label for="parent_id">Choisir la categorie parent: </label>
+      <select name="parent_id" id="parent_id" class="form-select"  >
+        <option value="0"> Pas de catégorie parent </option>
 
+        @foreach ($categories as $item)
+        <option value="{{ $item->id }}" {{ $categorie->parent_id == $item->id ? 'selected':'' }}>  {{ $item->nom_categorie }} </option>
+        
+        @endforeach
+      </select>
+    </div>
     
 
 

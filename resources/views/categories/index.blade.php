@@ -39,36 +39,30 @@
 <table class="table table-bordred uper">
     <thead>
       <tr>
-        <th scope="col">ID</th>
         <th scope="col">Nom Categorie</th>
-        <th scope="col" class="table-head">Action</th>
+        <th scope="col" >Action</th>
        
       </tr>
     </thead>
     <tbody>
-        @foreach($categories as $category)
 
-        <tr>
-            <td>{{ $category->id }}</td>
-        <td>{{ $category->nom_categorie }}</td>
-        <td>
-            <div class="row ">
-                <div class="col-md-3 offset-4">
-                    <form action="{{ route('categories.destroy', $category->id)}}" method="post">
-                         @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger " type="submit">Supprimer</button>
-                    </form>
-                </div>
-                <div class="col-md-3 ">
-                    <a href="{{ route('categories.edit', $category->id)}}" class="btn btn-primary">Modifier</a>
-                </div>
-            </div>
-        </td>
+
+  
+    @foreach ($categories as $category)
+    
+    <tr>
+     
+    <td >
+
+      <x-sub-category :category="$category"/>
+
+    </td>
+
         @endforeach
 
         
       </tr>
+     
       
     </tbody>
   </table>

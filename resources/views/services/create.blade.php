@@ -35,14 +35,15 @@
               <label for="nom">Nom de service:</label>
               <input type="text" class="form-control" name="nom"/>
           </div>
+          
 
           <div class="form-group">
               <label for="description">Description :</label>
               <textarea rows="4" cols="50" id="description" class="form-control" name="description"></textarea>
             </div>
             <div class="form-group">
-              <label for="prix">Prix :</label>
-              <input type="number" class="form-control" name="prix"/>
+              <label for="prix_initiale">Prix :</label>
+              <input type="number" class="form-control" name="prix_initiale"/>
             </div>
 
           <div class="form-group">
@@ -56,9 +57,11 @@
           <select name="categorie_id" id="categorie_id" class="form-select"  >
             <option value="--"> Choisir la categorie </option>
   
-            @foreach ($categories as $item)
-            <option value="{{ $item->id }}">  {{ $item->nom_categorie }} </option>
-            
+            @foreach ($categories as $category)
+         
+            <option value="{{ $category->id }}"> 
+               {{  $category->nom_categorie  }}    
+            </option>   
             @endforeach
           </select>
         </div>
@@ -68,6 +71,18 @@
 
       </div>
   </div>
+
+<div class="form-group ">
+
+  <label for="promotion">Promotion :</label>
+
+  <div class="input-group mb-3">
+    <input type="number" class="form-control" name="promotion" value="0" >
+    <div class="input-group-append">
+      <span class="input-group-text" >%</span>
+    </div>
+  </div>
+</div>
         <div class="row">
           <div class="col-6">
           <a href="{{ route('services.index')}}" class="btn btn-primary mt-3 buttom"">annuler </a>

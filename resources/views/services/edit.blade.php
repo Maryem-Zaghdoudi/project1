@@ -48,8 +48,8 @@
               <input type="text" class="form-control" name="description" value="{{ $service->description }}"/>
           </div>
           <div class="form-group">
-            <label for="prix">Prix :</label>
-            <input type="number" class="form-control" name="prix" value="{{ $service->prix }}"
+            <label for="prix_initiale">Prix :</label>
+            <input type="number" class="form-control" name="prix_initiale" value="{{ $service->prix_promo }}"
           </div>
           <div class="form-group ">
             <label for="categorie">Changer la categorie: </label>
@@ -62,6 +62,17 @@
               @endforeach
             </select>
           </div>
+          <div class="form-group ">
+
+            <label for="promotion">Promotion :</label>
+          
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" name="promotion" value="{{ $service->promotion }}" >
+              <div class="input-group-append">
+                <span class="input-group-text" >%</span>
+              </div>
+            </div>
+          </div>
       <div class="card mt-3 mb-3" style="width: 18rem;">
 			<div class="card-header">Image actuelle </div>
 			<img class="card-img" src="{{ asset('image/'. $service->image)  }}" >
@@ -72,6 +83,7 @@
         <label for="image">Image :</label>
         <input type="file"  accept="image/png, image/jpeg" class="form-control" name="image" />
     </div>
+
         <div class="row">
         <div class="col-6">
           <a href="{{ route('services.index')}}" class="btn btn-primary mt-3 buttom"">annuler </a>
